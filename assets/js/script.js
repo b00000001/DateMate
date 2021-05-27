@@ -75,7 +75,11 @@ function callSpoonacularApi(url) {
 					console.log(winePairing);
 					var wineDiv = document.createElement("div");
 					var h4El = document.createElement("h4");
-					h4El.innerHTML = winePairing.pairingText;
+					if (winePairing.pairingText === "") {
+						h4El.innerHTML = "No Suggested wine for this dinner, Enjoy!";
+					} else {
+						h4El.innerHTML = winePairing.pairingText;
+					}
 					wineDiv.appendChild(h4El);
 					recipeDisplayDiv.appendChild(wineDiv);
 				});

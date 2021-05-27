@@ -1,4 +1,4 @@
-//  ---------------------------------------------
+//  ----------------------API Related variables ----------------------
 var spoonAPIKey = "e29435235c7a48c3b173e38c7d69df99";
 var recipeDisplayDiv = document.getElementById("recipe__data");
 var movieDataDiv = document.getElementById("movie__data");
@@ -23,7 +23,7 @@ randomMovieButton.addEventListener("click", callMovieDb);
 apiTestButton.addEventListener("click", function () {
 	callSpoonacularApi(randomfoodUrl);
 });
-
+//  ----------------API Call Functions ------------------------------
 function callMovieDb() {
 	movieDataDiv.innerText = "";
 
@@ -51,6 +51,8 @@ function callSpoonacularApi(url) {
 			displayRecipe(foods);
 		});
 }
+
+// ------------------- Display functions -----------------------------
 function displayMovie(movies) {
 	var h2El = document.createElement("h2");
 	var pEl = document.createElement("p");
@@ -76,7 +78,7 @@ function displayRecipe(foods) {
 		ingredientType +
 		"&apiKey=" +
 		spoonAPIKey;
-	fetch(winePairingUrl)
+	fetch(winePairingUrl) // This fetch is just a part of the recipe display function so that something is always returned when a recipe is gathered. Wouldn't want a wine suggested without first getting a recipe.
 		.then(function (res) {
 			return res.json();
 		})
@@ -92,7 +94,7 @@ function displayWine(winePairing) {
 	var wineDiv = document.createElement("div");
 	var h4El = document.createElement("h4");
 	if (winePairing.pairingText === "") {
-		h4El.innerHTML = "No Suggested wine for this dinner, Enjoy!";
+		h4El.innerHTML = "No Suggested wine for this dinner, Enjoy!"; // If there is no returned wine suggestion based on the passed value, just put a default message.
 	} else {
 		h4El.innerHTML = winePairing.pairingText;
 	}

@@ -79,8 +79,8 @@ var getGenre = (randomMov) => {
 					]
 				) {
 					var h4El = document.createElement("h4");
-					h4El.innerText = "Genre: " + genreList.genres[i].name;
 
+					// h4El.innerText = "Genre: " + genreList.genres[i].name;
 					console.log("Genre: ", genreList.genres[i].name); // This is how to get the Genre name
 				}
 			}

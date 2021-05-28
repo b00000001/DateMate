@@ -5,7 +5,7 @@ var movieDataDiv = document.getElementById("movie__data");
 var randomfoodUrl =
 	"https://api.spoonacular.com/recipes/random?apiKey=" + spoonAPIKey;
 
-var testVar; // Reserved variable for holding any API data for testing purposes.
+var moviesData; // Reserved variable for holding any API data for testing purposes.
 var movieGenres = [
 	28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 10770,
 	53, 10752, 37,
@@ -36,10 +36,10 @@ function callMovieDb() {
 			displayMovie(movies);
 		})
 		.catch(function (error) {
-			~console.log(error);
+			console.log(error);
 		});
 }
-~function callSpoonacularApi(url) {
+function callSpoonacularApi(url) {
 	recipeDisplayDiv.innerHTML = "";
 	fetch(url)
 		.then(function (res) {
@@ -49,20 +49,45 @@ function callMovieDb() {
 			console.log(foods);
 			displayRecipe(foods);
 		});
-};
+}
 
 // ------------------- Display functions -----------------------------
 function displayMovie(movies) {
+	moviesData = movies;
 	var h2El = document.createElement("h2");
 	var pEl = document.createElement("p");
 	var movieRandomPick =
 		movies.results[Math.floor(Math.random() * movies.results.length)];
-
+	getGenre(movieRandomPick);
 	h2El.innerText = movieRandomPick.original_title;
 	pEl.innerText = movieRandomPick.overview;
 	movieDataDiv.appendChild(h2El);
 	movieDataDiv.appendChild(pEl);
 }
+function getGenre(randomMov) {
+	fetch(
+		"https://api.themoviedb.org/3/genre/movie/list?api_key=8e39c89d5fa028e82010a11d982e8911&language=en-US"
+	)
+		.then(function (res) {
+			return res.json();
+		})
+		.then(function (genreList) {
+			for (var i = 0; i < Object.keys(genreList.genres).length; i++) {
+				if (
+					genreList.genres[i].id ===
+					randomMov.genre_ids[
+						Math.floor(Math.random() * Object.keys(randomMov.genre_ids).length)
+					]
+				) {
+					console.log("Genre: ", genreList.genres[i].name); // This is how to get the Genre name
+				}
+			}
+		})
+		.catch(function (err) {
+			console.log(err);
+		});
+}
+
 function displayRecipe(foods) {
 	var ptag = document.createElement("p");
 	var h3El = document.createElement("h3");
@@ -100,13 +125,3 @@ function displayWine(winePairing) {
 	wineDiv.appendChild(h4El);
 	recipeDisplayDiv.appendChild(wineDiv);
 }
-//  --------------- testing button enable/disable
-var testButton = document.getElementById("test__button");
-var resetButton = document.getElementById("reset__button");
-var onOff = 0;
-testButton.addEventListener("click", function () {
-	testButton.disabled = true;
-});
-resetButton.addEventListener("click", function () {
-	testButton.disabled = false;
-});

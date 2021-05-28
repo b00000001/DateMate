@@ -1,11 +1,12 @@
 //  ----------------------API Related variables ----------------------
 var spoonAPIKey = "e29435235c7a48c3b173e38c7d69df99";
-var recipeDisplayDiv = document.getElementById("recipe__data");
-var movieDataDiv = document.getElementById("movie__data");
+var recipeDisplayDiv = document.getElementById("recipe__column");
+var movieTitleBtn = document.getElementById("movie__title");
 var randomfoodUrl =
 	"https://api.spoonacular.com/recipes/random?apiKey=" + spoonAPIKey;
 
 var moviesData; // Reserved variable for holding any API data for testing purposes.
+var moviePlot = document.getElementById("movie__plot");
 var movieGenres = [
 	28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 10770,
 	53, 10752, 37,
@@ -17,17 +18,18 @@ var genresUrl =
 	"&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_genres=" +
 	movieGenres[Math.floor(Math.random() * movieGenres.length)] +
 	"&with_watch_monetization_types=flatrate";
-var apiTestButton = document.getElementById("testapi");
+var randomRecipeButton = document.getElementById("random__recipe");
 var randomMovieButton = document.getElementById("random__movie");
 randomMovieButton.addEventListener("click", () => {
 	callMovieDb();
 });
-apiTestButton.addEventListener("click", () => {
+randomRecipeButton.addEventListener("click", () => {
 	callSpoonacularApi(randomfoodUrl);
 });
 //  ----------------API Call Functions ------------------------------
 var callMovieDb = () => {
-	movieDataDiv.innerText = "";
+	moviePlot.children[0].innerText = "";
+	console.log("test");
 
 	fetch(genresUrl)
 		.then((res) => res.json())
@@ -54,14 +56,14 @@ var displayMovie = (movies) => {
 	moviesData = movies;
 	var h2El = document.createElement("h2");
 	var pEl = document.createElement("p");
+	var movieTitle = document.getElementById("movie__title");
 	var movieRandomPick =
 		movies.results[Math.floor(Math.random() * movies.results.length)];
 	getGenre(movieRandomPick);
-	h2El.innerText = movieRandomPick.original_title;
+	movieTitle.innerText = movieRandomPick.original_title;
 	// Movie Title
 	pEl.innerText = movieRandomPick.overview; // Movie Summary
-	movieDataDiv.appendChild(h2El);
-	movieDataDiv.appendChild(pEl);
+	moviePlot.children[0].appendChild(pEl);
 };
 var getGenre = (randomMov) => {
 	fetch(
@@ -78,7 +80,7 @@ var getGenre = (randomMov) => {
 				) {
 					var h4El = document.createElement("h4");
 					h4El.innerText = "Genre: " + genreList.genres[i].name;
-					movieDataDiv.appendChild(h4El);
+
 					console.log("Genre: ", genreList.genres[i].name); // This is how to get the Genre name
 				}
 			}

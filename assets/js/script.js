@@ -58,7 +58,8 @@ var displayMovie = (movies) => {
 		movies.results[Math.floor(Math.random() * movies.results.length)];
 	getGenre(movieRandomPick);
 	h2El.innerText = movieRandomPick.original_title;
-	pEl.innerText = movieRandomPick.overview;
+	// Movie Title
+	pEl.innerText = movieRandomPick.overview; // Movie Summary
 	movieDataDiv.appendChild(h2El);
 	movieDataDiv.appendChild(pEl);
 };
@@ -75,6 +76,9 @@ var getGenre = (randomMov) => {
 						Math.floor(Math.random() * Object.keys(randomMov.genre_ids).length)
 					]
 				) {
+					var h4El = document.createElement("h4");
+					h4El.innerText = "Genre: " + genreList.genres[i].name;
+					movieDataDiv.appendChild(h4El);
 					console.log("Genre: ", genreList.genres[i].name); // This is how to get the Genre name
 				}
 			}

@@ -94,7 +94,7 @@ function displayWine(winePairing) {
 	var wineDiv = document.createElement("div");
 	var h4El = document.createElement("h4");
 	if (winePairing.pairingText === "") {
-		h4El.innerHTML = "No Suggested wine for this dinner, Enjoy!"; // If there is no returned wine suggestion based on the passed value, just put a default message.
+		h4El.innerHTML = "No Suggested wine for this recipe, Enjoy!"; // If there is no returned wine suggestion based on the passed value, just put a default message.
 	} else {
 		h4El.innerHTML = winePairing.pairingText;
 	}

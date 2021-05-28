@@ -6,9 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Date Mate</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
 </head>
-
-<h1>Date Mate</h1>
 
 <body>
     <div class="api__testing">
@@ -19,11 +18,126 @@
     </div>
     <div id="recipe__data">
 
-    </div>
+        <h1 class="title has-text-centered has-text-danger py-3">Date Mate</h1>
+        <h2 class="subtitle has-text-centered has-text-danger py-3">Date Night made Easy!</h2>
 
-    <div id="movie__data"></div>
-    <div id="genre__buttons"></div>
-    <script src="./assets/js/script.js"></script>
+        <section class="section">
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-0"></div>
+                    <p>Main Menu</p>
+                    <div class="column is-3"></div>
+                    <p>Movie Title: The Notebook</p>
+                    <div class="column is-3"></div>
+                    <p>Movie Plot: Woman has alzhimer's, Husband reads dairy about their love story.</p>
+                    <div class="column is-3"></div>
+                    <p>Recipe Name: Chicken Alfredo</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="buttons is-stacked">
+            <button class="button is-danger is-outline is-rounded">Recipe</button>
+        </div>
+
+        <div class="dropdown is-hoverable">
+            <div class="dropdown-trigger">
+                <button class="button is-danger is-outline is-rounded has-text-centered" aria-haspopup="true"
+                    aria-controls="dropdown-menu">
+                    <span>Movie Genre</span>
+                    <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                    <a href="#" class="dropdown-item">
+                        Action
+                    </a>
+                    <a class="dropdown-item">
+                        Adventure
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Animation
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Comedy
+                    </a>
+                    <a class="dropdown-item">
+                        Crime
+                    </a>
+                    <a class="dropdown-item">
+                        Documentary
+                    </a>
+                    <a class="dropdown-item">
+                        Drama
+                    </a>
+                    <a class="dropdown-item">
+                        Family
+                    </a>
+                    <a class="dropdown-item">
+                        Fantasy
+                    </a>
+                    <a class="dropdown-item">
+                        History
+                    </a>
+                    <a class="dropdown-item">
+                        Horror
+                    </a>
+                    <a class="dropdown-item">
+                        Music
+                    </a>
+                    <a class="dropdown-item">
+                        Mystery
+                    </a>
+                    <a class="dropdown-item">
+                        Romance
+                    </a>
+                    <a class="dropdown-item">
+                        Science Fiction
+                    </a>
+                    <a class="dropdown-item">
+                        TV Movie
+                    </a>
+                    <a class="dropdown-item">
+                        Thriller
+                    </a>
+                    <a class="dropdown-item">
+                        War
+                    </a>
+                    <a class="dropdown-item">
+                        Western
+                    </a>
+                </div>
+            </div>
+        </div>
+        =======
+        <div class="columns">
+            <div class="column">
+                Main Menu
+                <button class="button">Main Menu</button>
+            </div>
+            <div class="column">
+                Movie Title
+                <button class="button">Movie Title</button>
+            </div>
+            <div class="column">
+                Movie Plot
+                <button class="button">Movie Plot</button>
+            </div>
+            <div class="column">
+                Recipe Generator
+                <button class="button">Recipe Generator</button>
+            </div>
+            <div class="column">
+                Wine Pairing
+                <button class="button">Wine Pairing</button>
+            </div>
+        </div>
+
+
 </body>
+<script src="./assets/js/script.js"></script>
 
 </html>

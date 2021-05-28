@@ -19,40 +19,38 @@ var genresUrl =
 	"&with_watch_monetization_types=flatrate";
 var apiTestButton = document.getElementById("testapi");
 var randomMovieButton = document.getElementById("random__movie");
-randomMovieButton.addEventListener("click", callMovieDb);
-apiTestButton.addEventListener("click", function () {
+randomMovieButton.addEventListener("click", () => {
+	callMovieDb();
+});
+apiTestButton.addEventListener("click", () => {
 	callSpoonacularApi(randomfoodUrl);
 });
 //  ----------------API Call Functions ------------------------------
-function callMovieDb() {
+var callMovieDb = () => {
 	movieDataDiv.innerText = "";
 
 	fetch(genresUrl)
-		.then(function (res) {
-			return res.json();
-		})
-		.then(function (movies) {
+		.then((res) => res.json())
+		.then((movies) => {
 			console.log(movies);
 			displayMovie(movies);
 		})
-		.catch(function (error) {
+		.catch((error) => {
 			console.log(error);
 		});
-}
-function callSpoonacularApi(url) {
+};
+var callSpoonacularApi = (url) => {
 	recipeDisplayDiv.innerHTML = "";
 	fetch(url)
-		.then(function (res) {
-			return res.json();
-		})
-		.then(function (foods) {
+		.then((res) => res.json())
+		.then((foods) => {
 			console.log(foods);
 			displayRecipe(foods);
 		});
-}
+};
 
 // ------------------- Display functions -----------------------------
-function displayMovie(movies) {
+var displayMovie = (movies) => {
 	moviesData = movies;
 	var h2El = document.createElement("h2");
 	var pEl = document.createElement("p");
@@ -63,15 +61,13 @@ function displayMovie(movies) {
 	pEl.innerText = movieRandomPick.overview;
 	movieDataDiv.appendChild(h2El);
 	movieDataDiv.appendChild(pEl);
-}
-function getGenre(randomMov) {
+};
+var getGenre = (randomMov) => {
 	fetch(
 		"https://api.themoviedb.org/3/genre/movie/list?api_key=8e39c89d5fa028e82010a11d982e8911&language=en-US"
 	)
-		.then(function (res) {
-			return res.json();
-		})
-		.then(function (genreList) {
+		.then((res) => res.json())
+		.then((genreList) => {
 			for (var i = 0; i < Object.keys(genreList.genres).length; i++) {
 				if (
 					genreList.genres[i].id ===
@@ -83,12 +79,12 @@ function getGenre(randomMov) {
 				}
 			}
 		})
-		.catch(function (err) {
+		.catch((err) => {
 			console.log(err);
 		});
-}
+};
 
-function displayRecipe(foods) {
+var displayRecipe = (foods) => {
 	var ptag = document.createElement("p");
 	var h3El = document.createElement("h3");
 	h3El.innerText = foods.recipes[0].title;
@@ -103,17 +99,15 @@ function displayRecipe(foods) {
 		"&apiKey=" +
 		spoonAPIKey;
 	fetch(winePairingUrl) // This fetch is just a part of the recipe display function so that something is always returned when a recipe is gathered. Wouldn't want a wine suggested without first getting a recipe.
-		.then(function (res) {
-			return res.json();
-		})
-		.then(function (winePairing) {
+		.then((res) => res.json())
+		.then((winePairing) => {
 			displayWine(winePairing);
 		})
-		.catch(function (error) {
+		.catch((error) => {
 			console.log(error);
 		});
-}
-function displayWine(winePairing) {
+};
+var displayWine = (winePairing) => {
 	console.log(winePairing);
 	var wineDiv = document.createElement("div");
 	var h4El = document.createElement("h4");
@@ -124,4 +118,4 @@ function displayWine(winePairing) {
 	}
 	wineDiv.appendChild(h4El);
 	recipeDisplayDiv.appendChild(wineDiv);
-}
+};

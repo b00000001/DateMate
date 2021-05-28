@@ -36,11 +36,10 @@ function callMovieDb() {
 			displayMovie(movies);
 		})
 		.catch(function (error) {
-			console.log(error);
+			~console.log(error);
 		});
 }
-
-function callSpoonacularApi(url) {
+~function callSpoonacularApi(url) {
 	recipeDisplayDiv.innerHTML = "";
 	fetch(url)
 		.then(function (res) {
@@ -50,7 +49,7 @@ function callSpoonacularApi(url) {
 			console.log(foods);
 			displayRecipe(foods);
 		});
-}
+};
 
 // ------------------- Display functions -----------------------------
 function displayMovie(movies) {
@@ -101,3 +100,13 @@ function displayWine(winePairing) {
 	wineDiv.appendChild(h4El);
 	recipeDisplayDiv.appendChild(wineDiv);
 }
+//  --------------- testing button enable/disable
+var testButton = document.getElementById("test__button");
+var resetButton = document.getElementById("reset__button");
+var onOff = 0;
+testButton.addEventListener("click", function () {
+	testButton.disabled = true;
+});
+resetButton.addEventListener("click", function () {
+	testButton.disabled = false;
+});

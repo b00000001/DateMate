@@ -29,7 +29,7 @@ randomMovieButton.addEventListener("click", () => {
 randomRecipeButton.addEventListener("click", () => {
 	callSpoonacularApi(randomfoodUrl);
 });
-//  ----------------API Call Functions ------------------------------
+//  ----------------API Call Functions -------------------------------
 var callMovieDb = () => {
 	moviePlot.innerText = "";
 	movieGenre.innerText = "";
@@ -54,7 +54,31 @@ var callSpoonacularApi = (url) => {
 			displayRecipe(foods);
 		});
 };
-
+// -------------------------Button Handlers---------------------------
+var handleClick = () => {
+	var onOff = 1;
+	var genreButtons = document.getElementById("genre__buttons");
+	var resetButton = document.createElement("button");
+	for (var i = 0; i < genreButtons.children.length; i++) {
+		genreButtons.children[i].addEventListener("click", function (e) {
+			var buttonEvent = e.target.id;
+			var button = document.getElementById(buttonEvent);
+			button.disabled = true;
+			onOff = 0; // 0 for disabled || 1 for enabled
+			console.log("event listener", e, buttonEvent);
+			resetButton.setAttribute("class", "button is-danger mt-1 is-small");
+			resetButton.innerText = "Reset";
+			genreButtons.appendChild(resetButton);
+		});
+		console.log("Click", genreButtons.children[i]);
+	}
+	resetButton.addEventListener("click", function (e) {
+		console.log("test click reset button", e);
+		for (var i = 0; i < genreButtons.children.length; i++) {
+			genreButtons.children[i].disabled = false;
+		}
+	});
+};
 // ------------------- Display functions -----------------------------
 var displayMovie = (movies) => {
 	moviesData = movies;
@@ -151,3 +175,5 @@ var displayWine = (winePairing) => {
 		recipeDisplayDiv.appendChild(wineDiv);
 	}
 };
+
+handleClick();

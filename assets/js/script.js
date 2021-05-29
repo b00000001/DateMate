@@ -129,7 +129,7 @@ var displayWine = (winePairing) => {
 	var wineDiv = document.createElement("div");
 	wineDiv.setAttribute("class", "mt-3");
 	var button = document.createElement("button");
-	button.setAttribute("class", "button is-link is-small");
+	button.setAttribute("class", "button is-link mt-3 is-small");
 	button.innerText = "Learn More";
 	var h4El = document.createElement("h4");
 	suggestionUrl =
@@ -141,10 +141,12 @@ var displayWine = (winePairing) => {
 				"https://winefolly.com/wine-pairing/getting-started-with-food-and-wine-pairing/"
 			);
 		});
+		wineDiv.appendChild(h4El);
+		recipeDisplayDiv.appendChild(wineDiv);
+		recipeDisplayDiv.appendChild(button);
 	} else {
 		h4El.innerHTML = winePairing.pairingText;
+		wineDiv.appendChild(h4El);
+		recipeDisplayDiv.appendChild(wineDiv);
 	}
-	wineDiv.appendChild(h4El);
-	recipeDisplayDiv.appendChild(wineDiv);
-	recipeDisplayDiv.appendChild(button);
 };

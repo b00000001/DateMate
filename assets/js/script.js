@@ -128,12 +128,23 @@ var displayWine = (winePairing) => {
 	console.log(winePairing);
 	var wineDiv = document.createElement("div");
 	wineDiv.setAttribute("class", "mt-3");
+	var button = document.createElement("button");
+	button.setAttribute("class", "button is-link is-small");
+	button.innerText = "Learn More";
 	var h4El = document.createElement("h4");
+	suggestionUrl =
+		"https://winefolly.com/wine-pairing/getting-started-with-food-and-wine-pairing/";
 	if (winePairing.pairingText === "") {
-		h4El.innerHTML = "No Suggested wine for this recipe, Enjoy!"; // If there is no returned wine suggestion based on the passed value, just put a default message.
+		h4El.innerHTML = `No Suggested wine for this recipe, Enjoy! For more information, press the button`; // If there is no returned wine suggestion based on the passed value, just put a default message.
+		button.addEventListener("click", function () {
+			window.open(
+				"https://winefolly.com/wine-pairing/getting-started-with-food-and-wine-pairing/"
+			);
+		});
 	} else {
 		h4El.innerHTML = winePairing.pairingText;
 	}
 	wineDiv.appendChild(h4El);
 	recipeDisplayDiv.appendChild(wineDiv);
+	recipeDisplayDiv.appendChild(button);
 };

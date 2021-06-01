@@ -4,6 +4,7 @@ var backupSpoonApiKey = "7f55cad95b82472cae019d0951293823"; // Because 150 api c
 var recipeDisplayDiv = document.getElementById("recipe__column");
 recipeDisplayDiv.setAttribute("class", "ml-4 mr-4");
 var movieTitleBtn = document.getElementById("movie__title");
+var resetButton = document.createElement("button");
 var randomfoodUrl =
 	"https://api.spoonacular.com/recipes/random?apiKey=" + spoonAPIKey;
 
@@ -13,7 +14,8 @@ var movieGenres = [
 	28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 10770,
 	53, 10752, 37,
 ]; // These are genre codes for the API to use to select random movies from this array of genres ids.
-var amendedArray = [];
+var excludedArray = [];
+var includedArray = [];
 var movieGenre = document.getElementById("movie__genres");
 var movieDbKey = "8e39c89d5fa028e82010a11d982e8911";
 var genresUrl =
@@ -34,8 +36,8 @@ randomRecipeButton.addEventListener("click", () => {
 });
 //  ----------------API Call Functions -------------------------------
 var callMovieDb = () => {
-	console.log("amended array: ", amendedArray);
-	if (amendedArray.length > 0) {
+	console.log("amended array: ", excludedArray);
+	if (excludedArray.length > 0) {
 		console.log("array not empty");
 		checkMovieArray();
 	} else {
@@ -60,10 +62,10 @@ var checkMovieArray = () => {
 		"https://api.themoviedb.org/3/discover/movie?api_key=" +
 		movieDbKey +
 		"&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_genres=" +
-		amendedArray[Math.floor(Math.random() * movieGenres.length)] +
+		includedArray[Math.floor(Math.random() * movieGenres.length)] +
 		"&with_watch_monetization_types=flatrate";
 	console.log(amendedGenresUrl);
-	console.log(amendedArray);
+	console.log(excludedArray);
 	moviePlot.innerText = "";
 	movieGenre.innerText = "";
 
@@ -87,18 +89,25 @@ var callSpoonacularApi = (url) => {
 		});
 };
 // -------------------------Button Handlers---------------------------
-var handleClick = () => {
+var init = () => {
 	var genreButtons = document.getElementById("genre__buttons");
-	var resetButton = document.createElement("button");
+	if (genreButtons.children[19]) {
+		genreButtons.children[19].remove();
+	}
 	for (var i = 0; i < genreButtons.children.length; i++) {
 		genreButtons.children[i].addEventListener("click", function (e) {
 			var buttonEvent = e.target.id;
 			var button = document.getElementById(buttonEvent);
 			button.disabled = true;
+			includedArray = movieGenres;
 			for (var j = 0; j < movieGenres.length; j++) {
 				if (movieGenres[j] === parseInt(e.originalTarget.dataset.genreid)) {
-					amendedArray = movieGenres.splice(j, 1);
-					console.log(movieGenres, "index", j);
+					var spliceValue = movieGenres.splice(j, 1);
+					excludedArray.push(spliceValue[0]);
+					// includedArray = movieGenres - excludedArray values
+					includedArray.splice(spliceValue[0]);
+					console.log("excluded array new value:", excludedArray);
+					console.log("included array new value:", includedArray);
 				}
 			}
 
@@ -113,8 +122,16 @@ var handleClick = () => {
 	resetButton.addEventListener("click", function (e) {
 		for (var i = 0; i < genreButtons.children.length; i++) {
 			genreButtons.children[i].disabled = false;
-			amendedArray = [];
+			excludedArray = [];
+			includedArray = movieGenres;
 		}
+		console.log(
+			"excluded array",
+			excludedArray,
+			"included array",
+			includedArray
+		);
+		init();
 	});
 };
 // ------------------- Display functions -----------------------------
@@ -192,7 +209,7 @@ var displayWine = (winePairing) => {
 	var wineDiv = document.createElement("div");
 	wineDiv.setAttribute("class", "mt-3");
 	var button = document.createElement("button");
-	button.setAttribute("class", "button is-link mt-3 is-small");
+	button.setAttribute("class", "button is-success mt-3 is-small");
 	button.innerText = "Learn More";
 	var h4El = document.createElement("h4");
 	suggestionUrl =
@@ -214,4 +231,4 @@ var displayWine = (winePairing) => {
 	}
 };
 
-handleClick();
+init();

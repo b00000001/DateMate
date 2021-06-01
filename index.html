@@ -12,23 +12,23 @@
 
 <body>
     <section>
-        <div class="hero-body has-background-primary">
-            <figure>
-            <img class="is-rounded" src='./assets/images/dateMateLogo.png' alt='Date Mate Logo'>
+        <div class="hero-body has-background-primary has-text-centered">
+            <figure class="image is-inline-block">
+            <img src='./assets/images/dateMateLogo.png' alt='Date Mate Logo'>
             </figure>
         </div>
         <div class="columns">
             <div style="height: 100vh" class="column mt-3 is-one-quarter has-background-black">
                 <div class="container">
                     <div class="container ml-3">
-                        <p>Select a Recipe</p>
+                        <p class="has-text-white">Select a Recipe</p>
                     </div>
                     <div class="container ml-3">
                         <button id='random__recipe' class='button is-primary is-small is-outlined is-hovered'>Recipe Selection</button>
-                        <p>Select a Movie</p>
+                        <p class="has-text-white">Select a Movie</p>
                         <div>
                             <button id='random__movie' class="button is-primary is-small is-outlined is-hovered">Movie Selection</button>
-                            <p>Genre Selections</p>
+                            <p class="has-text-white">Genre Selections</p>
                             <div id='genre__buttons' class="container mt-3">
                                 <button id='action__movie' data-genreId=28
                                     class="button is-primary mt-1 is-small">Action</button>
@@ -79,7 +79,7 @@
                 <div class="box">
                     <article class="media">
                         <div class="media-left">
-                            <figure class="image is-64x64">
+                            <figure class="image is-128x128">
                                 <img id='poster__icon' src="" alt="">
                             </figure>
                         </div>
@@ -107,12 +107,32 @@
         </div>
 
     </section>
-    <div class="footer has-text-centered has-background-primary">
-        <p> Copyright &copy 2021 DateMate</p>
-        <p> Contact Us</p>
-        <p>Email: datemate08@gmail.com</p>
-        <p>Phone: 307-222-8888</p>
+    <footer class="hero-body has-background-black">
+        <h2 class="has-text-white">Not feeling adventurous? Take a look at these links for inspiration.</h2>
+        <nav class="navbar has-background-black">
+            <div class="navbar-brand">
+                <div>
+                    <a href="https://www.rottentomatoes.com/top/" target="_blank" class="navbar-item has-background-primary navbar-start has-text-white">
+                    Top Movies
+                    </a>
+                    <a href="https://www.foodnetwork.com/recipes/packages/fan-favorite-recipes" target="_blank" class="navbar-item has-background-dark has-text-white">
+                    Food Network Fan Favorites
+                    </a>
+                    <a href='https://www.winemag.com/2020/11/17/best-grocery-store-wine/' target="_blank" class="navbar-item has-background-primary navbar-end has-text-white">
+                    Selecting a Good Wine from the Supermarket
+                    </a>
+                </div> 
+            </div>
+        </nav>
+        <br>
+        <div class="has-text-centered has-background-primary" style="justify-content: space-evenly">
+        <p class="is-inline-block has-text-black"> Copyright &copy 2021 DateMate    |</p>
+        <p class="is-inline-block has-text-black"> Contact Us   |</p>
+        <p class="is-inline-block has-text-black">Email: datemate08@gmail.com   |</p>
+        <p class="is-inline-block has-text-black">Phone: 307-222-8888</p>
     </div>
+    </footer>
+
     <script src="./assets/js/script.js"></script>
 </body>
 

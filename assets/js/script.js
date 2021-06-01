@@ -4,7 +4,18 @@ var backupSpoonApiKey = "7f55cad95b82472cae019d0951293823"; // Because 150 api c
 var recipeDisplayDiv = document.getElementById("recipe__column");
 recipeDisplayDiv.setAttribute("class", "ml-4 mr-4");
 var movieTitleBtn = document.getElementById("movie__title");
+var genreButtons = document.getElementById("genre__buttons");
 var resetButton = document.createElement("button");
+resetButton.addEventListener("click", function (e) {
+	for (var i = 0; i < genreButtons.children.length; i++) {
+		genreButtons.children[i].disabled = false;
+	}
+	excludedArray = [];
+	includedArray = movieGenres;
+	localStorage.setItem("excludedGenres", []);
+	console.log("excluded array", excludedArray, "included array", includedArray);
+	init();
+});
 var randomfoodUrl =
 	"https://api.spoonacular.com/recipes/random?apiKey=" + spoonAPIKey;
 
@@ -36,12 +47,11 @@ randomRecipeButton.addEventListener("click", () => {
 });
 //  ----------------API Call Functions -------------------------------
 var callMovieDb = () => {
-	console.log("amended array: ", excludedArray);
+	console.log("excluded array: ", excludedArray);
 	if (excludedArray.length > 0) {
-		console.log("array not empty");
 		checkMovieArray();
 	} else {
-		console.log("amended array empty");
+		console.log("excluded array empty");
 		console.log(genresUrl);
 		moviePlot.innerText = "";
 		movieGenre.innerText = "";
@@ -58,6 +68,7 @@ var callMovieDb = () => {
 	}
 };
 var checkMovieArray = () => {
+	// This function will filter by Genre if any genre filters are selected.
 	var amendedGenresUrl =
 		"https://api.themoviedb.org/3/discover/movie?api_key=" +
 		movieDbKey +
@@ -88,22 +99,24 @@ var callSpoonacularApi = (url) => {
 			displayRecipe(foods);
 		});
 };
-// -------------------------Button Handlers---------------------------
+// -------------------------Init Function---------------------------
 var init = () => {
-	var genreButtons = document.getElementById("genre__buttons");
-	if (genreButtons.children[19]) {
-		genreButtons.children[19].remove();
-	}
+	var button;
+	checkButton(genreButtons);
+	includedArray = movieGenres;
+	// if (genreButtons.children[19]) {
+	// 	genreButtons.children[19].remove();
+	// }
+
+	//  Add Event listeners to genre buttons.
 	for (var i = 0; i < genreButtons.children.length; i++) {
 		genreButtons.children[i].addEventListener("click", function (e) {
-			var buttonEvent = e.target.id;
-			var button = document.getElementById(buttonEvent);
-			button.disabled = true;
-			includedArray = movieGenres;
+			e.target.disabled = true;
 			for (var j = 0; j < movieGenres.length; j++) {
 				if (movieGenres[j] === parseInt(e.originalTarget.dataset.genreid)) {
 					var spliceValue = movieGenres.splice(j, 1);
 					excludedArray.push(spliceValue[0]);
+					localStorage.setItem("excludedGenres", JSON.stringify(excludedArray));
 					// includedArray = movieGenres - excludedArray values
 					includedArray.splice(spliceValue[0]);
 					console.log("excluded array new value:", excludedArray);
@@ -111,7 +124,7 @@ var init = () => {
 				}
 			}
 
-			console.log("event listener", e.originalTarget.dataset, buttonEvent);
+			console.log("event listener", e.originalTarget.dataset);
 			resetButton.setAttribute("class", "button is-danger mt-1 is-small");
 			resetButton.innerText = "Reset";
 			// genreButtons.removeChild(button);
@@ -119,20 +132,25 @@ var init = () => {
 		});
 		console.log("Click", genreButtons.children[i]);
 	}
-	resetButton.addEventListener("click", function (e) {
-		for (var i = 0; i < genreButtons.children.length; i++) {
-			genreButtons.children[i].disabled = false;
-			excludedArray = [];
-			includedArray = movieGenres;
+};
+var checkButton = (genreButtons) => {
+	if (window.localStorage.excludedGenres !== "") {
+		// Check if local storage is not empty.
+		for (
+			var i = 0;
+			i <= JSON.parse(window.localStorage.excludedGenres).length;
+			i++
+		) {
+			if (
+				JSON.parse(window.localStorage.excludedGenres).includes(
+					parseInt(genreButtons.children[i].dataset.genreid)
+				)
+			) {
+				console.log("match");
+				genreButtons.children[i].disabled = true;
+			}
 		}
-		console.log(
-			"excluded array",
-			excludedArray,
-			"included array",
-			includedArray
-		);
-		init();
-	});
+	}
 };
 // ------------------- Display functions -----------------------------
 var displayMovie = (movies) => {

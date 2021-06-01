@@ -55,13 +55,17 @@ var callMovieDb = () => {
 			});
 	}
 };
+/* 
+The intent of this function is to collect a list of movie ID's into an based on the dataset id numbers, 
+those movies are what will be used to select a random value for movie search. 
+ */
 var checkMovieArray = () => {
 	var amendedGenresUrl =
 		"https://api.themoviedb.org/3/discover/movie?api_key=" +
 		movieDbKey +
 		"&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_genres=" +
 		amendedArray[Math.floor(Math.random() * movieGenres.length)] +
-		"&with_watch_monetization_types=flatrate";
+		"&with_watch_monetization_types=flatrate"; // Amended array selection is not returning the correct value.
 	console.log(amendedGenresUrl);
 	console.log(amendedArray);
 	moviePlot.innerText = "";

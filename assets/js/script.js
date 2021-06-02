@@ -1,6 +1,6 @@
 //  ----------------------API Related variables ----------------------
 var spoonAPIKey = "e29435235c7a48c3b173e38c7d69df99";
-localStorage.setItem('excludedGenres', '');
+var excludedGenres = JSON.parse(localStorage.getItem("excludedGenres")) || [];
 var backupSpoonApiKey = "7f55cad95b82472cae019d0951293823"; // Because 150 api call limit
 var recipeDisplayDiv = document.getElementById("recipe__column");
 recipeDisplayDiv.setAttribute("class", "ml-4 mr-4");
@@ -9,12 +9,11 @@ var genreButtons = document.getElementById("genre__buttons");
 var resetButton = document.createElement("button");
 resetButton.addEventListener("click", function (e) {
 	for (var i = 0; i < genreButtons.children.length; i++) {
-		genreButtons.children[i].disabled = false;
+		genreButtons.children[i].classList.add("is-danger");
+		genreButtons.children[i].classList.remove("is-primary");
 	}
-	excludedArray = [];
-	includedArray = [...movieGenres];
-	localStorage.setItem("excludedGenres", []);
-	console.log("excluded array", excludedArray, "included array", includedArray);
+	excludedGenres = [];
+	localStorage.setItem("excludedGenres", JSON.parse(excludedGenres));
 });
 var randomfoodUrl =
 	"https://api.spoonacular.com/recipes/random?apiKey=" + spoonAPIKey;
@@ -25,8 +24,6 @@ const movieGenres = [
 	28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 10770,
 	53, 10752, 37,
 ]; // These are genre codes for the API to use to select random movies from this array of genres ids.
-var excludedArray = [];
-var includedArray = [];
 var movieGenre = document.getElementById("movie__genres");
 var movieDbKey = "8e39c89d5fa028e82010a11d982e8911";
 var genresUrl =
@@ -69,8 +66,9 @@ var checkMovieArray = () => {
 		"https://api.themoviedb.org/3/discover/movie?api_key=" +
 		movieDbKey +
 		"&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_genres=" +
-		includedArray[Math.floor(Math.random() * movieGenres.length)] +
+		includedArray[Math.floor(Math.random() * includedArray.length)] +
 		"&with_watch_monetization_types=flatrate";
+	console.log(amendedGenresUrl);
 	moviePlot.innerText = "";
 	movieGenre.innerText = "";
 
@@ -94,61 +92,24 @@ var callSpoonacularApi = (url) => {
 };
 // -------------------------Init Function---------------------------
 var init = () => {
-
-	if (window.localStorage.excludedGenres !== "") {
+	if (excludedGenres.length) {
 		for (var i = 0; i < genreButtons.children.length; i++) {
 			if (
-				JSON.parse(window.localStorage.excludedGenres).includes(
+				excludedGenres.includes(
 					parseInt(genreButtons.children[i].dataset.genreid)
 				)
 			) {
-				genreButtons.children[i].disabled = true;
+				console.log("match");
+				genreButtons.children[i].classList.remove("is-danger");
+				genreButtons.children[i].classList.add("is-primary");
 				resetButton.setAttribute("class", "button is-danger mt-1 is-small");
 				resetButton.innerText = "Reset";
 				genreButtons.appendChild(resetButton);
 			}
 		}
 	}
-	includedArray = [...movieGenres]; // Spread operator
-	//  Add Event listeners to genre buttons.
-	for (var i = 0; i < genreButtons.children.length; i++) {
-		genreButtons.children[i].addEventListener("click", function (e) {
-			for (var j = 0; j < movieGenres.length; j++) {
-				if (includedArray[j] === parseInt(e.originalTarget.dataset.genreid)) {
-					e.target.disabled = true;
-					var spliceValue = includedArray.splice(j, 1);
-					excludedArray.push(spliceValue[0]);
-					localStorage.setItem("excludedGenres", JSON.stringify(excludedArray));
-					// includedArray = movieGenres - excludedArray values
-					includedArray.splice(spliceValue[0]);
-					// console.log("excluded array new value:", excludedArray);
-					// console.log("included array new value:", includedArray);
-				} else {
-					if (window.localStorage && window.localStorage.excludedGenres !== "") {
-						for (
-							var i = 0;
-							i < JSON.parse(window.localStorage.excludedGenres).length;
-							i++
-						) {
-							includedArray = [...movieGenres];
-							if (
-								includedArray.includes(window.localStorage.excludedGenres[i])
-							) {
-								includedArray.splice(window.localStorage[i], 1);
-							}
-						}
-					} else {
-						includedArray = [...movieGenres];
-					}
-				}
-			}
 
-			resetButton.setAttribute("class", "button is-danger mt-1 is-small");
-			resetButton.innerText = "Reset";
-			// genreButtons.removeChild(button);
-			genreButtons.appendChild(resetButton);
-		});
-	}
+	//  Add Event listeners to genre buttons.
 };
 
 // ------------------- Display functions -----------------------------
@@ -159,7 +120,7 @@ var displayMovie = (movies) => {
 	var movieTitle = document.getElementById("movie__title");
 	var moviePoster = document.getElementById("poster__icon");
 	var movieRandomPick =
-		movies.results[Math.floor(Math.random() * movies.results.length)];
+		moviesData.results[Math.floor(Math.random() * moviesData.results.length)];
 	getGenre(movieRandomPick);
 	movieTitle.innerText = movieRandomPick.original_title;
 	moviePoster.setAttribute(
@@ -249,3 +210,51 @@ var displayWine = (winePairing) => {
 };
 
 init();
+
+genreButtons.addEventListener("click", function (e) {
+	if (e.target.matches("[data-genreid]")) {
+		var genreId = parseInt(e.target.dataset.genreid);
+		if (!excludedGenres.includes(genreId)) {
+			console.log("added");
+			excludedGenres.push(genreId);
+
+			e.target.classList.remove("is-danger");
+			e.target.classList.add("is-primary");
+		} else {
+			var index = excludedGenres.indexOf(genreId);
+			excludedGenres.splice(index, 1);
+			e.target.classList.remove("is-primary");
+			e.target.classList.add("is-danger");
+		}
+		localStorage.setItem("excludedGenres", JSON.stringify(excludedGenres));
+		// for (var j = 0; j < movieGenres.length; j++) {
+		// if (includedArray[j] === parseInt(e.target.dataset.genreid)) {
+
+		// 	var spliceValue = includedArray.splice(j, 1);
+		// 	excludedArray.push(spliceValue[0]);
+		// 	console.log("included array", includedArray);
+		// 	localStorage.setItem("excludedGenres", JSON.stringify(excludedArray));
+		// 	// includedArray = movieGenres - excludedArray values
+		// 	includedArray.splice(spliceValue[0]);
+		// 	// console.log("excluded array new value:", excludedArray);
+		// 	// console.log("included array new value:", includedArray);
+		// } else {
+		// 	if (excludedGenres.length) {
+		// 		for (var i = 0; i < excludedGenres.length; i++) {
+		// 			if (includedArray.includes(excludedGenres[i])) {
+		// 				includedArray = [...movieGenres];
+		// 				includedArray.splice(window.localStorage[i], 1);
+		// 			}
+		// 		}
+		// 	} else {
+		// 		includedArray = [...movieGenres];
+		// 	}
+		// }
+		// }
+
+		resetButton.setAttribute("class", "button is-danger mt-1 is-small");
+		resetButton.innerText = "Reset";
+		// genreButtons.removeChild(button);
+		genreButtons.appendChild(resetButton);
+	}
+});

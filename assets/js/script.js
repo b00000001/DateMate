@@ -46,19 +46,15 @@ randomRecipeButton.addEventListener("click", () => {
 });
 //  ----------------API Call Functions -------------------------------
 var callMovieDb = () => {
-	console.log("excluded array: ", excludedArray);
 	if (excludedArray.length > 0) {
 		checkMovieArray();
 	} else {
-		console.log("excluded array empty");
-		console.log(genresUrl);
 		moviePlot.innerText = "";
 		movieGenre.innerText = "";
 
 		fetch(genresUrl)
 			.then((res) => res.json())
 			.then((movies) => {
-				console.log(movies);
 				displayMovie(movies);
 			})
 			.catch((error) => {
@@ -74,15 +70,12 @@ var checkMovieArray = () => {
 		"&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_genres=" +
 		includedArray[Math.floor(Math.random() * movieGenres.length)] +
 		"&with_watch_monetization_types=flatrate";
-	console.log(amendedGenresUrl);
-	console.log(excludedArray);
 	moviePlot.innerText = "";
 	movieGenre.innerText = "";
 
 	fetch(amendedGenresUrl)
 		.then((res) => res.json())
 		.then((movies) => {
-			console.log(movies);
 			displayMovie(movies);
 		})
 		.catch((error) => {
@@ -107,7 +100,6 @@ var init = () => {
 					parseInt(genreButtons.children[i].dataset.genreid)
 				)
 			) {
-				console.log("match");
 				genreButtons.children[i].disabled = true;
 				resetButton.setAttribute("class", "button is-danger mt-1 is-small");
 				resetButton.innerText = "Reset";
@@ -119,7 +111,6 @@ var init = () => {
 	//  Add Event listeners to genre buttons.
 	for (var i = 0; i < genreButtons.children.length; i++) {
 		genreButtons.children[i].addEventListener("click", function (e) {
-			console.log(movieGenres.length);
 			for (var j = 0; j < movieGenres.length; j++) {
 				if (includedArray[j] === parseInt(e.originalTarget.dataset.genreid)) {
 					e.target.disabled = true;
@@ -131,7 +122,6 @@ var init = () => {
 					// console.log("excluded array new value:", excludedArray);
 					// console.log("included array new value:", includedArray);
 				} else {
-					console.log("nomatch found");
 					if (window.localStorage.excludedGenres !== "") {
 						for (
 							var i = 0;
@@ -149,7 +139,6 @@ var init = () => {
 				}
 			}
 
-			console.log("event listener", e.originalTarget.dataset);
 			resetButton.setAttribute("class", "button is-danger mt-1 is-small");
 			resetButton.innerText = "Reset";
 			// genreButtons.removeChild(button);

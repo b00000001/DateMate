@@ -12,7 +12,6 @@ resetButton.addEventListener("click", function (e) {
 		genreButtons.children[i].disabled = false;
 	}
 	excludedArray = [];
-	includedArray = [...movieGenres];
 	localStorage.setItem("excludedGenres", []);
 	console.log("excluded array", excludedArray, "included array", includedArray);
 });
@@ -28,6 +27,7 @@ const movieGenres = [
 var excludedArray = [];
 var includedArray = [];
 var movieGenre = document.getElementById("movie__genres");
+includedArray; // Spread operator
 var movieDbKey = "8e39c89d5fa028e82010a11d982e8911";
 var genresUrl =
 	"https://api.themoviedb.org/3/discover/movie?api_key=" +
@@ -69,8 +69,9 @@ var checkMovieArray = () => {
 		"https://api.themoviedb.org/3/discover/movie?api_key=" +
 		movieDbKey +
 		"&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_genres=" +
-		includedArray[Math.floor(Math.random() * movieGenres.length)] +
+		includedArray[Math.floor(Math.random() * includedArray.length)] +
 		"&with_watch_monetization_types=flatrate";
+	console.log(amendedGenresUrl);
 	moviePlot.innerText = "";
 	movieGenre.innerText = "";
 
@@ -88,18 +89,20 @@ var callSpoonacularApi = (url) => {
 	fetch(url)
 		.then((res) => res.json())
 		.then((foods) => {
+			console.log(foods);
 			displayRecipe(foods);
 		});
 };
 // -------------------------Init Function---------------------------
 var init = () => {
-	if (window.localStorage.excludedGenres !== "") {
+	if (window.localStorage && window.localStorage.excludedGenres !== "") {
 		for (var i = 0; i < genreButtons.children.length; i++) {
 			if (
 				JSON.parse(window.localStorage.excludedGenres).includes(
 					parseInt(genreButtons.children[i].dataset.genreid)
 				)
 			) {
+				console.log("match");
 				genreButtons.children[i].disabled = true;
 				resetButton.setAttribute("class", "button is-danger mt-1 is-small");
 				resetButton.innerText = "Reset";
@@ -107,36 +110,16 @@ var init = () => {
 			}
 		}
 	}
-	includedArray = [...movieGenres]; // Spread operator
+
 	//  Add Event listeners to genre buttons.
 	for (var i = 0; i < genreButtons.children.length; i++) {
-		if (
-			window.localStorage.disabledGenres.includes(
-				parseInt(genreButtons.children[i].dataset.genreid)
-			)
-		) {
-			console.log(
-				"match in storage for",
-				genreButtons.children[i].dataset.genreid
-			);
-
-			includedArray = movieGenres;
-			if (window.localStorage.disabledGenres.includes(includedArray[i])) {
-				includedArray =
-					includedArray +
-					includedArray.splice(window.localStorage.disabledGenres[i]);
-				console.log("local storage has changed includedArray", includedArray);
-			}
-
-			genreButtons.children[i].disabled = true;
-			genreButtons.appendChild(resetButton);
-		}
 		genreButtons.children[i].addEventListener("click", function (e) {
 			for (var j = 0; j < movieGenres.length; j++) {
 				if (includedArray[j] === parseInt(e.originalTarget.dataset.genreid)) {
 					e.target.disabled = true;
 					var spliceValue = includedArray.splice(j, 1);
 					excludedArray.push(spliceValue[0]);
+					console.log("included array", includedArray);
 					localStorage.setItem("excludedGenres", JSON.stringify(excludedArray));
 					// includedArray = movieGenres - excludedArray values
 					includedArray.splice(spliceValue[0]);
@@ -152,10 +135,10 @@ var init = () => {
 							i < JSON.parse(window.localStorage.excludedGenres).length;
 							i++
 						) {
-							includedArray = [...movieGenres];
 							if (
 								includedArray.includes(window.localStorage.excludedGenres[i])
 							) {
+								includedArray = [...movieGenres];
 								includedArray.splice(window.localStorage[i], 1);
 							}
 						}
@@ -181,7 +164,7 @@ var displayMovie = (movies) => {
 	var movieTitle = document.getElementById("movie__title");
 	var moviePoster = document.getElementById("poster__icon");
 	var movieRandomPick =
-		movies.results[Math.floor(Math.random() * movies.results.length)];
+		moviesData.results[Math.floor(Math.random() * moviesData.results.length)];
 	getGenre(movieRandomPick);
 	movieTitle.innerText = movieRandomPick.original_title;
 	moviePoster.setAttribute(
@@ -192,7 +175,6 @@ var displayMovie = (movies) => {
 	pEl.innerText = movieRandomPick.overview; // Movie Summary
 	moviePlot.appendChild(pEl);
 };
-// -----------------------------Genre Display Function -----------------
 var getGenre = (randomMov) => {
 	fetch(
 		"https://api.themoviedb.org/3/genre/movie/list?api_key=8e39c89d5fa028e82010a11d982e8911&language=en-US"
@@ -226,7 +208,7 @@ var displayRecipe = (foods) => {
 	strongTag.innerText = foods.recipes[0].title;
 
 	var ingredientType = foods.recipes[0].extendedIngredients[0].nameClean;
-
+	console.log(ingredientType);
 	ptag.innerHTML = foods.recipes[0].instructions;
 	recipeDisplayDiv.appendChild(strongTag);
 	recipeDisplayDiv.appendChild(ptag);
@@ -245,6 +227,7 @@ var displayRecipe = (foods) => {
 		});
 };
 var displayWine = (winePairing) => {
+	console.log(winePairing);
 	var wineDiv = document.createElement("div");
 	wineDiv.setAttribute("class", "mt-3");
 	var button = document.createElement("button");

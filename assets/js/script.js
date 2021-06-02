@@ -1,5 +1,6 @@
 //  ----------------------API Related variables ----------------------
 var spoonAPIKey = "e29435235c7a48c3b173e38c7d69df99";
+localStorage.setItem('excludedGenres', '');
 var backupSpoonApiKey = "7f55cad95b82472cae019d0951293823"; // Because 150 api call limit
 var recipeDisplayDiv = document.getElementById("recipe__column");
 recipeDisplayDiv.setAttribute("class", "ml-4 mr-4");
@@ -93,6 +94,7 @@ var callSpoonacularApi = (url) => {
 };
 // -------------------------Init Function---------------------------
 var init = () => {
+
 	if (window.localStorage.excludedGenres !== "") {
 		for (var i = 0; i < genreButtons.children.length; i++) {
 			if (
@@ -122,7 +124,7 @@ var init = () => {
 					// console.log("excluded array new value:", excludedArray);
 					// console.log("included array new value:", includedArray);
 				} else {
-					if (window.localStorage.excludedGenres !== "") {
+					if (window.localStorage && window.localStorage.excludedGenres !== "") {
 						for (
 							var i = 0;
 							i < JSON.parse(window.localStorage.excludedGenres).length;
@@ -135,6 +137,8 @@ var init = () => {
 								includedArray.splice(window.localStorage[i], 1);
 							}
 						}
+					} else {
+						includedArray = [...movieGenres];
 					}
 				}
 			}

@@ -1,19 +1,31 @@
 //  ----------------------API Related variables ----------------------
 var spoonAPIKey = "e29435235c7a48c3b173e38c7d69df99";
+localStorage.setItem("excludedGenres", "");
 var backupSpoonApiKey = "7f55cad95b82472cae019d0951293823"; // Because 150 api call limit
 var recipeDisplayDiv = document.getElementById("recipe__column");
 recipeDisplayDiv.setAttribute("class", "ml-4 mr-4");
 var movieTitleBtn = document.getElementById("movie__title");
+var genreButtons = document.getElementById("genre__buttons");
+var resetButton = document.createElement("button");
+resetButton.addEventListener("click", function (e) {
+	for (var i = 0; i < genreButtons.children.length; i++) {
+		genreButtons.children[i].disabled = false;
+	}
+	excludedArray = [];
+	includedArray = [...movieGenres];
+	localStorage.setItem("excludedGenres", []);
+	console.log("excluded array", excludedArray, "included array", includedArray);
+});
 var randomfoodUrl =
 	"https://api.spoonacular.com/recipes/random?apiKey=" + spoonAPIKey;
 
 var moviesData; // Reserved variable for holding any API data for testing purposes.
 var moviePlot = document.getElementById("movie__plot");
-var movieGenres = [
+const movieGenres = [
 	28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 10770,
 	53, 10752, 37,
 ]; // These are genre codes for the API to use to select random movies from this array of genres ids.
-var amendedArray = [];
+var excludedArray = [];
 var includedArray = [];
 var movieGenre = document.getElementById("movie__genres");
 var movieDbKey = "8e39c89d5fa028e82010a11d982e8911";
@@ -35,9 +47,7 @@ randomRecipeButton.addEventListener("click", () => {
 });
 //  ----------------API Call Functions -------------------------------
 var callMovieDb = () => {
-	console.log("amended array: ", amendedArray);
-	if (amendedArray.length > 0) {
-		console.log("array not empty");
+	if (excludedArray.length > 0) {
 		checkMovieArray();
 	} else {
 		moviePlot.innerText = "";
@@ -54,11 +64,12 @@ var callMovieDb = () => {
 	}
 };
 var checkMovieArray = () => {
+	// This function will filter by Genre if any genre filters are selected.
 	var amendedGenresUrl =
 		"https://api.themoviedb.org/3/discover/movie?api_key=" +
 		movieDbKey +
 		"&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_genres=" +
-		amendedArray[Math.floor(Math.random() * movieGenres.length)] +
+		includedArray[Math.floor(Math.random() * movieGenres.length)] +
 		"&with_watch_monetization_types=flatrate";
 	moviePlot.innerText = "";
 	movieGenre.innerText = "";
@@ -80,12 +91,24 @@ var callSpoonacularApi = (url) => {
 			displayRecipe(foods);
 		});
 };
-// -------------------------Button Handlers---------------------------
+// -------------------------Init Function---------------------------
 var init = () => {
-	var genreButtons = document.getElementById("genre__buttons");
-	var resetButton = document.createElement("button");
-	resetButton.setAttribute("class", "button is-danger mt-1 is-small");
-	resetButton.innerText = "Reset";
+	if (window.localStorage.excludedGenres !== "") {
+		for (var i = 0; i < genreButtons.children.length; i++) {
+			if (
+				JSON.parse(window.localStorage.excludedGenres).includes(
+					parseInt(genreButtons.children[i].dataset.genreid)
+				)
+			) {
+				genreButtons.children[i].disabled = true;
+				resetButton.setAttribute("class", "button is-danger mt-1 is-small");
+				resetButton.innerText = "Reset";
+				genreButtons.appendChild(resetButton);
+			}
+		}
+	}
+	includedArray = [...movieGenres]; // Spread operator
+	//  Add Event listeners to genre buttons.
 	for (var i = 0; i < genreButtons.children.length; i++) {
 		if (
 			window.localStorage.disabledGenres.includes(
@@ -109,45 +132,47 @@ var init = () => {
 			genreButtons.appendChild(resetButton);
 		}
 		genreButtons.children[i].addEventListener("click", function (e) {
-			console.log(e.originalTarget.dataset.genreid);
-
-			var buttonEvent = e.target.id;
-			var button = document.getElementById(buttonEvent);
-			button.disabled = true;
-			amendedArray.push(e.originalTarget.dataset.genreid);
-			for (var i = 0; i < movieGenres.length; i++) {
-				if (movieGenres.includes(e.target.id)) {
-					includedArray.push(movieGenres.splice(i, 1));
-				}
-			}
-			/*  This controls if the buttons are disabled or not based on local storage.
-			if they are disabled due to local storage, the values that are still enabled are pushed to the 
-			includedArray variable. 
-			*/
-			localStorage.setItem("disabledGenres", amendedArray);
 			for (var j = 0; j < movieGenres.length; j++) {
-				if (movieGenres[j] === parseInt(e.originalTarget.dataset.genreid)) {
-					amendedArray.push(movieGenres.splice(j, 1));
-					includedArray.push(movieGenres.splice(j, 1));
-					console.log("included array", includedArray);
-					localStorage.setItem("disabledGenres", amendedArray);
+				if (includedArray[j] === parseInt(e.originalTarget.dataset.genreid)) {
+					e.target.disabled = true;
+					var spliceValue = includedArray.splice(j, 1);
+					excludedArray.push(spliceValue[0]);
+					localStorage.setItem("excludedGenres", JSON.stringify(excludedArray));
+					// includedArray = movieGenres - excludedArray values
+					includedArray.splice(spliceValue[0]);
+					// console.log("excluded array new value:", excludedArray);
+					// console.log("included array new value:", includedArray);
+				} else {
+					if (
+						window.localStorage &&
+						window.localStorage.excludedGenres !== ""
+					) {
+						for (
+							var i = 0;
+							i < JSON.parse(window.localStorage.excludedGenres).length;
+							i++
+						) {
+							includedArray = [...movieGenres];
+							if (
+								includedArray.includes(window.localStorage.excludedGenres[i])
+							) {
+								includedArray.splice(window.localStorage[i], 1);
+							}
+						}
+					} else {
+						includedArray = [...movieGenres];
+					}
 				}
 			}
 
-			console.log("event listener", e.originalTarget.dataset, buttonEvent);
-
+			resetButton.setAttribute("class", "button is-danger mt-1 is-small");
+			resetButton.innerText = "Reset";
 			// genreButtons.removeChild(button);
 			genreButtons.appendChild(resetButton);
 		});
 	}
-	resetButton.addEventListener("click", function (e) {
-		for (var i = 0; i < genreButtons.children.length; i++) {
-			genreButtons.children[i].disabled = false;
-			window.localStorage.disabledGenres = [];
-			amendedArray = [];
-		}
-	});
 };
+
 // ------------------- Display functions -----------------------------
 var displayMovie = (movies) => {
 	moviesData = movies;
@@ -223,7 +248,7 @@ var displayWine = (winePairing) => {
 	var wineDiv = document.createElement("div");
 	wineDiv.setAttribute("class", "mt-3");
 	var button = document.createElement("button");
-	button.setAttribute("class", "button is-link mt-3 is-small");
+	button.setAttribute("class", "button is-success mt-3 is-small");
 	button.innerText = "Learn More";
 	var h4El = document.createElement("h4");
 	suggestionUrl =

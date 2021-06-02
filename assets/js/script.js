@@ -44,7 +44,7 @@ randomRecipeButton.addEventListener("click", () => {
 });
 //  ----------------API Call Functions -------------------------------
 var callMovieDb = () => {
-	if (excludedArray.length > 0) {
+	if (excludedGenres.length > 0) {
 		checkMovieArray();
 	} else {
 		moviePlot.innerText = "";
@@ -66,7 +66,7 @@ var checkMovieArray = () => {
 		"https://api.themoviedb.org/3/discover/movie?api_key=" +
 		movieDbKey +
 		"&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_genres=" +
-		includedArray[Math.floor(Math.random() * includedArray.length)] +
+		excludedGenres[Math.floor(Math.random() * excludedGenres.length)] +
 		"&with_watch_monetization_types=flatrate";
 
 	moviePlot.innerText = "";

@@ -68,7 +68,7 @@ var checkMovieArray = () => {
 		"&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_genres=" +
 		includedArray[Math.floor(Math.random() * includedArray.length)] +
 		"&with_watch_monetization_types=flatrate";
-	console.log(amendedGenresUrl);
+
 	moviePlot.innerText = "";
 	movieGenre.innerText = "";
 
@@ -86,7 +86,6 @@ var callSpoonacularApi = (url) => {
 	fetch(url)
 		.then((res) => res.json())
 		.then((foods) => {
-			console.log(foods);
 			displayRecipe(foods);
 		});
 };
@@ -99,7 +98,6 @@ var init = () => {
 					parseInt(genreButtons.children[i].dataset.genreid)
 				)
 			) {
-				console.log("match");
 				genreButtons.children[i].classList.remove("is-danger");
 				genreButtons.children[i].classList.add("is-primary");
 				resetButton.setAttribute("class", "button is-danger mt-1 is-small");
@@ -147,7 +145,6 @@ var getGenre = (randomMov) => {
 					var pEl = document.createElement("p");
 					pEl.innerText = "Other Genres: " + genreList.genres[i].name;
 					movieGenre.appendChild(pEl);
-					console.log("Genre: ", genreList.genres[i].name); // This is how to get the Genre name
 				}
 			}
 		})
@@ -164,7 +161,7 @@ var displayRecipe = (foods) => {
 	strongTag.innerText = foods.recipes[0].title;
 
 	var ingredientType = foods.recipes[0].extendedIngredients[0].nameClean;
-	console.log(ingredientType);
+
 	ptag.innerHTML = foods.recipes[0].instructions;
 	recipeDisplayDiv.appendChild(strongTag);
 	recipeDisplayDiv.appendChild(ptag);
@@ -183,7 +180,6 @@ var displayRecipe = (foods) => {
 		});
 };
 var displayWine = (winePairing) => {
-	console.log(winePairing);
 	var wineDiv = document.createElement("div");
 	wineDiv.setAttribute("class", "mt-3");
 	var button = document.createElement("button");
@@ -215,7 +211,6 @@ genreButtons.addEventListener("click", function (e) {
 	if (e.target.matches("[data-genreid]")) {
 		var genreId = parseInt(e.target.dataset.genreid);
 		if (!excludedGenres.includes(genreId)) {
-			console.log("added");
 			excludedGenres.push(genreId);
 
 			e.target.classList.remove("is-danger");
@@ -227,34 +222,9 @@ genreButtons.addEventListener("click", function (e) {
 			e.target.classList.add("is-danger");
 		}
 		localStorage.setItem("excludedGenres", JSON.stringify(excludedGenres));
-		// for (var j = 0; j < movieGenres.length; j++) {
-		// if (includedArray[j] === parseInt(e.target.dataset.genreid)) {
-
-		// 	var spliceValue = includedArray.splice(j, 1);
-		// 	excludedArray.push(spliceValue[0]);
-		// 	console.log("included array", includedArray);
-		// 	localStorage.setItem("excludedGenres", JSON.stringify(excludedArray));
-		// 	// includedArray = movieGenres - excludedArray values
-		// 	includedArray.splice(spliceValue[0]);
-		// 	// console.log("excluded array new value:", excludedArray);
-		// 	// console.log("included array new value:", includedArray);
-		// } else {
-		// 	if (excludedGenres.length) {
-		// 		for (var i = 0; i < excludedGenres.length; i++) {
-		// 			if (includedArray.includes(excludedGenres[i])) {
-		// 				includedArray = [...movieGenres];
-		// 				includedArray.splice(window.localStorage[i], 1);
-		// 			}
-		// 		}
-		// 	} else {
-		// 		includedArray = [...movieGenres];
-		// 	}
-		// }
-		// }
 
 		resetButton.setAttribute("class", "button is-danger mt-1 is-small");
 		resetButton.innerText = "Reset";
-		// genreButtons.removeChild(button);
 		genreButtons.appendChild(resetButton);
 	}
 });

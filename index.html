@@ -12,63 +12,63 @@
 
 <body>
     <section>
-        <div class="hero-body has-background-primary has-text-centered">
-            <figure class="image is-inline-block">
-            <img src='./assets/images/dateMateLogo.png' alt='Date Mate Logo'>
+        <div class="hero-body has-background-danger">
+            <figure>
+            <img class="is-rounded" src='./assets/images/dateMateLogo.png' alt='Date Mate Logo'>
             </figure>
         </div>
         <div class="columns">
             <div style="height: 100vh" class="column mt-3 is-one-quarter has-background-black">
                 <div class="container">
-                    <div class="container ml-3">
-                        <p class="has-text-white">Select a Recipe</p>
+                    <div class="container ml-3 has-text-white">
+                        <p>Select a Recipe</p>
                     </div>
-                    <div class="container ml-3">
-                        <button id='random__recipe' class='button is-primary is-small is-outlined is-hovered'>Recipe Selection</button>
-                        <p class="has-text-white">Select a Movie</p>
+                    <div class="container ml-3 has-text-white">
+                        <button id='random__recipe' class='button is-danger is-small'>Recipe Selection</button>
+                        <p>Select a Movie</p>
                         <div>
-                            <button id='random__movie' class="button is-primary is-small is-outlined is-hovered">Movie Selection</button>
-                            <p class="has-text-white">Genre Selections</p>
+                            <button id='random__movie' class="button is-danger is-small">Movie Selection</button>
+                            <p>Genre Selections</p>
                             <div id='genre__buttons' class="container mt-3">
                                 <button id='action__movie' data-genreId=28
-                                    class="button is-primary mt-1 is-small">Action</button>
+                                    class="button is-danger mt-1 is-small">Action</button>
                                 <button id='adventure__movie' data-genreId=12
-                                    class="button is-primary mt-1 is-small">Adventure</button>
+                                    class="button is-danger mt-1 is-small">Adventure</button>
                                 <button id='animation__movie' data-genreId=16
-                                    class="button is-primary mt-1 is-small">Animation</button>
+                                    class="button is-danger mt-1 is-small">Animation</button>
                                 <button id='comedy__movie' data-genreId=35
-                                    class="button is-primary mt-1 is-small">Comedy</button>
+                                    class="button is-danger mt-1 is-small">Comedy</button>
                                 <button id='crime__movie' data-genreId=80
-                                    class="button is-primary mt-1 is-small">Crime</button>
+                                    class="button is-danger mt-1 is-small">Crime</button>
                                 <button id='doc__movie' data-genreId=99
-                                    class="button is-primary mt-1 is-small">Documentary</button>
+                                    class="button is-danger mt-1 is-small">Documentary</button>
                                 <button id='drama__movie' data-genreId=18
-                                    class="button is-primary mt-1 is-small">Drama</button>
+                                    class="button is-danger mt-1 is-small">Drama</button>
                                 <button id='family__movie' data-genreId=10751
-                                    class="button is-primary mt-1 is-small">Family</button>
+                                    class="button is-danger mt-1 is-small">Family</button>
                                 <button id='fantasy__movie' data-genreId=14
-                                    class="button is-primary mt-1 is-small">Fantasy</button>
+                                    class="button is-danger mt-1 is-small">Fantasy</button>
                                 <button id='history__movie' data-genreId=36
-                                    class="button is-primary mt-1 is-small">History</button>
+                                    class="button is-danger mt-1 is-small">History</button>
                                 <button id='horror__movie' data-genreId=27
-                                    class="button is-primary mt-1 is-small">Horror</button>
+                                    class="button is-danger mt-1 is-small">Horror</button>
                                 <button id='music__movie' data-genreId=10402
-                                    class="button is-primary mt-1 is-small">Music</button>
+                                    class="button is-danger mt-1 is-small">Music</button>
                                 <button id='mystery__movie' data-genreId=9648
-                                    class="button is-primary mt-1 is-small">Mystery</button>
+                                    class="button is-danger mt-1 is-small">Mystery</button>
                                 <button id='romance__movie' data-genreId=10749
-                                    class="button is-primary mt-1 is-small">Romance</button>
+                                    class="button is-danger mt-1 is-small">Romance</button>
                                 <button id='science__movie' data-genreId=878
-                                    class="button is-primary mt-1 is-small">Science
+                                    class="button is-danger mt-1 is-small">Science
                                     Fiction</button>
-                                <button id='tv__movie' data-genreId=10770 class="button is-primary mt-1 is-small">TV
+                                <button id='tv__movie' data-genreId=10770 class="button is-danger mt-1 is-small">TV
                                     Movie</button>
                                 <button id='thriller__movie' data-genreId=53
-                                    class="button is-primary mt-1 is-small">Thriller</button>
+                                    class="button is-danger mt-1 is-small">Thriller</button>
                                 <button id='war__movie' data-genreId=10752
-                                    class="button is-primary mt-1 is-small">War</button>
+                                    class="button is-danger mt-1 is-small">War</button>
                                 <button id='western__movie' data-genreId=37
-                                    class="button is-primary mt-1 is-small">Western</button>
+                                    class="button is-danger mt-1 is-small">Western</button>
                             </div>
 
                         </div>
@@ -79,7 +79,7 @@
                 <div class="box">
                     <article class="media">
                         <div class="media-left">
-                            <figure class="image is-128x128">
+                            <figure class="image is-64x64">
                                 <img id='poster__icon' src="" alt="">
                             </figure>
                         </div>
@@ -88,7 +88,7 @@
                                 <p>
                                     <strong id='movie__title'></strong> <small id='movie__genres'></small>
                                     <br>
-                                <p id="movie__plot">Welcome to DateMate, this is a tool you can use to plan your perfect
+                                <p id="movie__plot has-text-centered">Welcome to DateMate, this is a tool you can use to plan your perfect
                                     Date Night. Click the 'Movie Selection' Button and then click the 'Recipe Selection' button to
                                     get
                                     started!</p>
@@ -107,32 +107,12 @@
         </div>
 
     </section>
-    <footer class="hero-body has-background-black">
-        <h2 class="has-text-white">Not feeling adventurous? Take a look at these links for inspiration.</h2>
-        <nav class="navbar has-background-black">
-            <div class="navbar-brand">
-                <div>
-                    <a href="https://www.rottentomatoes.com/top/" target="_blank" class="navbar-item has-background-primary navbar-start has-text-white">
-                    Top Movies
-                    </a>
-                    <a href="https://www.foodnetwork.com/recipes/packages/fan-favorite-recipes" target="_blank" class="navbar-item has-background-dark has-text-white">
-                    Food Network Fan Favorites
-                    </a>
-                    <a href='https://www.winemag.com/2020/11/17/best-grocery-store-wine/' target="_blank" class="navbar-item has-background-primary navbar-end has-text-white">
-                    Selecting a Good Wine from the Supermarket
-                    </a>
-                </div> 
-            </div>
-        </nav>
-        <br>
-        <div class="has-text-centered has-background-primary" style="justify-content: space-evenly">
-        <p class="is-inline-block has-text-black"> Copyright &copy 2021 DateMate    |</p>
-        <p class="is-inline-block has-text-black"> Contact Us   |</p>
-        <p class="is-inline-block has-text-black">Email: datemate08@gmail.com   |</p>
-        <p class="is-inline-block has-text-black">Phone: 307-222-8888</p>
+    <div class="footer has-text-centered has-background-danger has-text-white">
+        <p> Copyright &copy 2021 DateMate</p>
+        <p> Contact Us</p>
+        <p>Email: datemate08@gmail.com</p>
+        <p>Phone: 307-222-8888</p>
     </div>
-    </footer>
-
     <script src="./assets/js/script.js"></script>
 </body>
 

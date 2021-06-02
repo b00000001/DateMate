@@ -107,7 +107,7 @@ var init = () => {
 			}
 		}
 	}
-	includedArray = [...movieGenres];
+	includedArray = [...movieGenres]; // Spread operator
 	//  Add Event listeners to genre buttons.
 	for (var i = 0; i < genreButtons.children.length; i++) {
 		genreButtons.children[i].addEventListener("click", function (e) {

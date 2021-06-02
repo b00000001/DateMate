@@ -94,8 +94,23 @@ var callSpoonacularApi = (url) => {
 };
 // -------------------------Init Function---------------------------
 var init = () => {
-	
-	// //  Add Event listeners to genre buttons.
+
+	if (window.localStorage.excludedGenres !== "") {
+		for (var i = 0; i < genreButtons.children.length; i++) {
+			if (
+				JSON.parse(window.localStorage.excludedGenres).includes(
+					parseInt(genreButtons.children[i].dataset.genreid)
+				)
+			) {
+				genreButtons.children[i].disabled = true;
+				resetButton.setAttribute("class", "button is-danger mt-1 is-small");
+				resetButton.innerText = "Reset";
+				genreButtons.appendChild(resetButton);
+			}
+		}
+	}
+	includedArray = [...movieGenres]; // Spread operator
+	//  Add Event listeners to genre buttons.
 	for (var i = 0; i < genreButtons.children.length; i++) {
 		genreButtons.children[i].addEventListener("click", function (e) {
 			for (var j = 0; j < movieGenres.length; j++) {

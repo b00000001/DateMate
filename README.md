@@ -4,12 +4,14 @@
 
 This program's objective is to simplify date night by taking all of the decision-making out of choosing what's for dinner and which movie to watch. When the user clicks the "call recipe" button they are presented with a random recipe suggestion along with a wine pairing if available. Likewise, once the movie button is pressed, the user is presented with a random movie suggestion. The movie selection can also be narrowed down by genre by clicking the desired genre buttons. The user can generate another recipe or movie suggestion by clicking the corresponding button if they did not like the previous suggestion.
 
+If a wine pairing is available for the recipe it will be shown under the recipe. Otherwise a "learn more" button will appear that will give the user information about how to pair a wine. Links were also included at the bottom of the page that show popular recipes/movies if they are not liking the suggestions they are getting.
+
 
 ## Technologies Used
 
-HTML, CSS, and Javascript were used to create this program. The Bulma CSS framework was used to create the layout and do all of the styling. Javascript was used to dynamically create the recipe and movie suggestions once the buttons are pressed. The [Spoonacular](https://spoonacular.com/food-api) and [The Movie Database](https://developers.themoviedb.org/3/getting-started/introduction) APIs were used to generate the data about the food/wine and movie recommendation.
+HTML, CSS, and Javascript were used to create this program. The Bulma CSS framework was used to create the layout and do all of the styling. Javascript was used to dynamically create the recipe and movie suggestions once the buttons are pressed. The [Spoonacular](https://spoonacular.com/food-api) and [The Movie Database](https://developers.themoviedb.org/3/getting-started/introduction) APIs were used to generate the data about the food/wine and movie recommendations.
 
-[Link to deployed project](#)
+[Link to deployed project](https://b00000001.github.io/DateMate/)
 
 ![screenshot](#)
 

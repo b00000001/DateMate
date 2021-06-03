@@ -13,7 +13,7 @@ HTML, CSS, and Javascript were used to create this program. The Bulma CSS framew
 
 [Link to deployed project](https://b00000001.github.io/DateMate/)
 
-![screenshot](#)
+![screenshot](https://github.com/b00000001/DateMate/blob/0d0b865da8bc6035c53f9ee6ee0dc37f44923dc8/assets/images/dateMateScreenshot.png)
 
 ## Contributors
 
